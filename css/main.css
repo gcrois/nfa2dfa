@@ -4,12 +4,6 @@
   resize:vertical;
 }
 
-#languages {
-  resize:none;
-  min-height: 0vh;
-  height: 20px;
-}
-
 #graph {
   width: 100%;
   height: 60vh;

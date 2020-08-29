@@ -1,39 +1,49 @@
-<!-- This website was written by Gregory Croisale -->
+<!-- This website was written by Gregory Croisdale -->
 
 <html>
   <head>
     <!-- html metadata -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+
     <!-- External resources -->
+    <!-- Our main css stylesheet -->
     <link rel="stylesheet" type="text/css" href="css/main.css">
+    <!-- Network Graph visualizer -->
     <script type="text/javascript" src="js/libraries/vis-network.min.js"></script>
+    <!-- State object handler -->
     <script type="text/javascript" src="js/states.js"></script>
+    <!-- json editor -->
+    <script type="text/javascript" src="js\libraries\jsoneditor.min.js"></script>
+
+    <!-- main.js -->
     <script type="text/javascript" src="js/main.js"></script>
+
     <title>
       Gregory Site Time (Woohoo)
     </title>
   </head>
+
+  <!-- whenever the content loads, run -->
+  <!-- functions for initialization -->
   <body onload="init()">
+    <!-- this will contain our network graph -->
     <div id="graph">
-      hi
     </div>
-    <div>
-      <table id="field_divide" width=100%>
-        <tr id="field_row">
-          <td>
-            Comma separated symbols ('e' is a protected symbol):
-            <textarea name="searchTxt" type="text" id="languages" class="field"/>
-            </textarea>
-            <textarea name="searchTxt" type="text" id="input" class="field"/>
-            </textarea>
-          </td>
-          <td>
-            <textarea name="searchTxt" type="text" id="output" class="field" readonly>
-            </textarea>
-          </td>
-        </tr>
-    </div>
-     <button onclick="update()">Click me</button>
+
+    <!-- divides gui fields into two -->
+    <table id="field_divide" width=100%>
+      <tr id="field_row">
+        <td>
+          <textarea name="searchTxt" type="text" id="input" class="field">
+          </textarea>
+        </td>
+        <td>
+          <textarea name="searchTxt" type="text" id="output" class="field" readonly>
+          </textarea>
+        </td>
+      </tr>
+    </table>
+     <button onclick="parse()">Parse JSON</button>
   </body>
 </html>
