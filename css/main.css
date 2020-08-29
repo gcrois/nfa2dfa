@@ -16,3 +16,58 @@ td {
    border: 1px solid black;
    width: 50%;
  }
+
+ table {
+   margin: 0;
+   padding: 0;
+ }
+
+ body {
+   font-family: sans-serif;
+ }
+
+#menu_pop {
+  position: absolute;
+  margin-left: 0px;
+  margin-right: 0px;
+  display: none;
+  width: 150px;
+  background-color: #addcff;
+  color: grey;
+  z-index: 2;
+  padding: 0px 8px 5px 8px;
+}
+
+#close {
+  background-color: #91d0ff;
+  height: 30px;
+  width: 30px;
+  border: none;
+  color: #ffabab;
+  text-align: center;
+  text-decoration: none;
+  margin-left: -8px;
+  padding: 0;
+  font-size: 24px;
+  z-index: 2;
+}
+
+#close:hover {
+  color: #ff8787;
+}
+
+.m_head {
+  margin-top: -23px;
+  size: 36px;
+  text-align: right;
+}
+
+#m_head_container {
+  position: absolute;
+  height: 30px;
+  width: 166px;
+  margin-left: -8px;
+  display: block;
+  background-color: #a5c2d9;
+  z-index: -1;
+}

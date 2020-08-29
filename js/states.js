@@ -3,7 +3,9 @@ const default_color = "green";
 let n_edges = 0;
 let n_nodes = 0;
 
+// Transition object for edges
 function Transition(id, symbol, from, to) {
+  if (symbol == "e") symbol = "ε";
   this.id = id;
   this.arrows = arrow_type;
   this.label = symbol;
@@ -16,7 +18,7 @@ function State(id, label, transitions, accepted) {
   this.id = id;
   this.label = label;
   this.transitions = {
-    "ε": new Transition(n_edges++, "ε", this.id, this.id),
+    "ε": new Transition(n_edges++, "e", this.id, this.id),
   };
   this.accepted = accepted;
 }
@@ -39,11 +41,11 @@ function new_node(id = input.value, label = input.value, n = network, S = states
   N.update([S[S.length - 1]]);
 
   for (const i in s.transitions) {
-    console.log(i);
+    if (verbose) console.log(i);
     E.update([s.transitions[i]]);
   }
 
-  console.log(E);
+  id = "";
 
   n.redraw();
 }
