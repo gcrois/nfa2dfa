@@ -18,7 +18,8 @@ const n_menu_html =  `
 <div class="m_head">New node menu</div><br>
 New label:
 <input type="text" id="new_label" placeholder="label"><br><br>
-Final state? <input type="checkbox" id="final">
+Final state? <input type="checkbox" id="final"><br><br>
+<button onclick="node_from_menu()" style="width: 100%;">Create node</button>
 `
 
 // perform necessary tasks upon page load
@@ -47,7 +48,6 @@ function init() {
   new_node("Init", "Init");
 
   // listen for event
-  document.getElementById("graph").addEventListener("hold", close_menu);
   document.getElementById("graph").addEventListener("click", on_click);
 }
 
@@ -68,17 +68,31 @@ function on_click(context) {
 }
 
 function new_node_menu(x, y) {
-  node_menu = true;
-  menu.innerHTML = n_menu_html;
-  if (verbose) menu.innerHTML += "x: " + x + " y: " + y;
-  menu.style["margin-left"] = x;
-  menu.style["margin-top"]  = y;
-  menu.style["display"]     = "block";
-  if (verbose) console.log("New node menu @ " + x + ", " + y);
+  if (document.getElementById("edit_mode").checked) {
+    node_menu = true;
+    menu.innerHTML = n_menu_html;
+    if (verbose) menu.innerHTML += "x: " + x + " y: " + y;
+    menu.style["margin-left"] = x;
+    menu.style["margin-top"]  = y;
+    menu.style["display"]     = "block";
+    if (verbose) console.log("New node menu @ " + x + ", " + y);
+  }
+}
 
-  let field = document.getElementById("new_label");
+function node_from_menu() {
+  let new_label = document.getElementById("new_label").value;
+
+  let node_id = nodes.get(new_label);
+  if (node_id != null) {
+    document.getElementById("new_label").placeholder = new_label + " already exists.";
+    document.getElementById("new_label").value = "";
+    network.moveTo(node_id);
+  }
+  else {
+    new_node(new_label, new_label);
+  }
 }
 
 function close_menu(){
-  menu.style["display"]     = "none";
+  menu.style["display"] = "none";
 }
