@@ -16,7 +16,7 @@ function State(id, label, transitions, accepted) {
   this.id = id;
   this.label = label;
   this.transitions = {
-    "e": new Transition(n_edges++, "e", this.id, this.id),
+    "ε": new Transition(n_edges++, "ε", this.id, this.id),
   };
   this.accepted = accepted;
 }
@@ -33,17 +33,17 @@ function state_str(s) {
   let out = "";
 }
 
-function new_node(n = network) {
-  s = new State(input.value, input.value, [], false)
-  states.push(s);
-  nodes.update([states[states.length - 1]]);
+function new_node(id = input.value, label = input.value, n = network, S = states, E = edges, N = nodes) {
+  s = new State(id, label, [], false)
+  S.push(s);
+  N.update([S[S.length - 1]]);
 
   for (const i in s.transitions) {
     console.log(i);
-    edges.update([s.transitions[i]]);
+    E.update([s.transitions[i]]);
   }
 
-  console.log(edges);
+  console.log(E);
 
   n.redraw();
 }

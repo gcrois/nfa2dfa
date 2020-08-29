@@ -29,7 +29,8 @@ function init() {
 
   // States
   states = [];
-  console.log(container);
+
+  new_node("Init", "Init");
 }
 
 function parse() {
