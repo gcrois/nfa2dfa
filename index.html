@@ -1,26 +1,39 @@
+<!-- This website was written by Gregory Croisale -->
+
 <html>
   <head>
+    <!-- html metadata -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- External resources -->
     <link rel="stylesheet" type="text/css" href="css/main.css">
+    <script type="text/javascript" src="js/libraries/vis-network.min.js"></script>
+    <script type="text/javascript" src="js/states.js"></script>
+    <script type="text/javascript" src="js/main.js"></script>
     <title>
       Gregory Site Time (Woohoo)
     </title>
   </head>
-  <body>
+  <body onload="init()">
+    <div id="graph">
+      hi
+    </div>
     <div>
-      <table id="field_divide">
-        <tr>
+      <table id="field_divide" width=100%>
+        <tr id="field_row">
           <td>
+            Comma separated symbols ('e' is a protected symbol):
+            <textarea name="searchTxt" type="text" id="languages" class="field"/>
+            </textarea>
             <textarea name="searchTxt" type="text" id="input" class="field"/>
             </textarea>
           </td>
           <td>
-            <textarea name="searchTxt" type="text" id="output" class="field"/>
+            <textarea name="searchTxt" type="text" id="output" class="field" readonly>
             </textarea>
           </td>
         </tr>
-
     </div>
+     <button onclick="update()">Click me</button>
   </body>
 </html>

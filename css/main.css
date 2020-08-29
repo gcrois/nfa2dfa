@@ -1,8 +1,24 @@
 .field {
-  min-width: 45%;
-  max-width: 45%;
+  width: 100%;
+  min-height: 30vh;
+  resize:vertical;
 }
 
-.field_divide {
+#languages {
+  resize:none;
+  min-height: 0vh;
+  height: 20px;
+}
+
+#graph {
+  width: 100%;
+  height: 60vh;
+  max-height: 512px;
+  background-color: #fffcf2;
+  border: 1px solid black;
+}
+
+td {
    border: 1px solid black;
+   width: 50%;
  }
