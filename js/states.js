@@ -1,5 +1,7 @@
 const arrow_type = "to";
 const default_color = "green";
+const touch_color = "orange";
+const untouched_color = "yellow";
 let n_edges = 0;
 let n_nodes = 0;
 
@@ -18,7 +20,7 @@ function State(label, transitions, accepted) {
   this.id = label.replace(/\s+/g, '');
   this.label = label;
   this.transitions = {
-    "ε": [new Transition(n_edges++, "e", this.id, this.id)],
+    "e": [new Transition(n_edges++, "e", this.id, this.id)],
   };
   this.accepted = accepted;
 
@@ -30,7 +32,12 @@ function State(label, transitions, accepted) {
   }
 }
 
-function e_closure(states, nodes) {
+function e_closure(target_states, nodes) {
+  frontier = target_states;
+
+  for (const i in target_states) {
+
+  }
   return states;
 }
 
@@ -59,6 +66,7 @@ function new_node(id = input.value, final = 0, check_can = false, n = network, S
       E.update([s.transitions[i][j]]);
     }
   }
+  output.value = JSON.stringify(S);
 }
 
 function touch_state(s) {

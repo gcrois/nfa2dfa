@@ -8,7 +8,8 @@ let input     = -1; // input html element
 let states    = -1; // map of all states
 let network   = -1; // network graph object instance
 const verbose =  0; // change verbosity of console
-let node_name = ""; // node we are current working on
+let node_name = ""; // node we are currently working on
+let edge_name = ""; // edge we are currently working on
 let cav_x, can_y=0; // x and y of canvas during event
 
 
@@ -103,7 +104,8 @@ function on_click(context) {
       }
       else {
         close_menu();
-        alert("Edge editor");
+        edge_name = context.items[0];
+        edge_edit_menu(pointer.DOM.x, pointer.DOM.y);
       }
     }
     else {
@@ -117,41 +119,41 @@ function on_click(context) {
 
 // set display to show new node menu
 function new_node_menu(x, y, c_x, c_y) {
-  if (document.getElementById("edit_mode").checked) {
-    if (verbose) console.log(c_x, c_y);
-    clicked_x = x;
-    clicked_y = y;
+  if (verbose) console.log(c_x, c_y);
+  clicked_x = x;
+  clicked_y = y;
 
-    menu.innerHTML = new_node_menu_html;
-    if (verbose) menu.innerHTML += "x: " + x + " y: " + y;
-    menu.style["margin-left"] = x;
-    menu.style["margin-top"]  = y;
-    menu.style["display"]     = "block";
-    if (verbose) console.log("New node menu @ " + x + ", " + y);
-  }
+  menu.innerHTML = new_node_menu_html;
+  if (verbose) menu.innerHTML += "x: " + x + " y: " + y;
+  menu.style["margin-left"] = x;
+  menu.style["margin-top"]  = y;
+  menu.style["display"]     = "block";
+  if (verbose) console.log("New node menu @ " + x + ", " + y);
+}
+
+function edge_edit_menu(x, y) {
+  console.log(x,y,edge_name);
 }
 
 // set display to show node edit menu
 function node_edit_menu(x, y) {
-  if (document.getElementById("edit_mode").checked) {
-    clicked_x = x;
-    clicked_y = y;
-    let new_content;
+  clicked_x = x;
+  clicked_y = y;
+  let new_content;
 
-    new_content = node_menu_html_top + node_name;
-    new_content += node_menu_html_mid;
-    for (const i in states) {
-      new_content += "<option>" + states[i].id + "</option>";
-    }
-    new_content += node_menu_html_bottom;
-    menu.innerHTML = new_content;
-    if (verbose) console.log(menu.innerHTML);
-    if (verbose) menu.innerHTML += "x: " + x + " y: " + y;
-    menu.style["margin-left"] = x;
-    menu.style["margin-top"]  = y;
-    menu.style["display"]     = "block";
-    if (verbose) console.log("New node menu @ " + x + ", " + y);
+  new_content = node_menu_html_top + node_name;
+  new_content += node_menu_html_mid;
+  for (const i in states) {
+    new_content += "<option>" + states[i].id + "</option>";
   }
+  new_content += node_menu_html_bottom;
+  menu.innerHTML = new_content;
+  if (verbose) console.log(menu.innerHTML);
+  if (verbose) menu.innerHTML += "x: " + x + " y: " + y;
+  menu.style["margin-left"] = x;
+  menu.style["margin-top"]  = y;
+  menu.style["display"]     = "block";
+  if (verbose) console.log("New node menu @ " + x + ", " + y);
 }
 
 // generate a node from a menu
