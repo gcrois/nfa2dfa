@@ -42,10 +42,15 @@ function state_str(s) {
   let out = "";
 }
 
-function new_node(id = input.value, final = 0, n = network, S = states, E = edges, N = nodes) {
+function new_node(id = input.value, final = 0, check_can = false, n = network, S = states, E = edges, N = nodes) {
   s = new State(id, [], final);
-  S[id.replace(/\s+/g, '')] = s;
-  N.update([S[id.replace(/\s+/g, '')]]);
+  new_id = id.replace(/\s+/g, '');
+  S[new_id] = s;
+  if (check_can) {
+    s.x = can_x;
+    s.y = can_y;
+  }
+  N.update([s]);
 
   for (const i in s.transitions) {
     if (verbose) console.log(i);
@@ -61,12 +66,14 @@ function touch_state(s) {
 }
 
 function add_edge(n = network, S = states, E = edges, N = nodes) {
+  // retrieve edge information from fields
   let to = document.getElementById("to").value.replace(/\s+/g, '');
   let to_item;
   let symbol = document.getElementById("symbol").value;
   let from = node_name.replace(/\s+/g, '');
   let from_item = N.get(from);
   //let appended = false;
+
 
   if (S[to] == undefined) {
     alert("State " + to + " DNE");

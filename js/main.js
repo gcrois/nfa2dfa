@@ -9,6 +9,7 @@ let states    = -1; // map of all states
 let network   = -1; // network graph object instance
 const verbose =  0; // change verbosity of console
 let node_name = ""; // node we are current working on
+let cav_x, can_y=0; // x and y of canvas during event
 
 
 const new_node_menu_html =  `
@@ -71,7 +72,7 @@ function init() {
   new_node("Init", false);
 
   // listen for event
-  document.getElementById("graph").addEventListener("click", on_click);
+  network.addEventListener("click", on_click);
   document.getElementById("edit_mode").addEventListener("click", close_menu);
 }
 
@@ -83,16 +84,22 @@ function parse() {
 // When you click on the graph window,
 function on_click(context) {
   let id, e_id;
+  let pointer = context.pointer;
+
+  can_x = pointer.canvas.x;
+  can_y = pointer.canvas.y;
+
+  if (verbose) console.log(context)
 
   // make sure we're in edit mode
   if (document.getElementById("edit_mode").checked) {
     // check if you're on an object
-    if ((id = network.getNodeAt(context)) == undefined) {
+    if (context.nodes.length == 0) {
       // if not on Node, check edge
-      if ((e_id = network.getEdgeAt(context)) == undefined) {
+      if (context.items.length == 0) {
         // now, let's try to make a new node
         close_menu();
-        new_node_menu(context.clientX, context.clientY);
+        new_node_menu(pointer.DOM.x, pointer.DOM.y);
       }
       else {
         close_menu();
@@ -102,15 +109,16 @@ function on_click(context) {
     else {
       // open the edit menu
       close_menu();
-      node_name = id;
-      node_edit_menu(context.clientX, context.clientY);
+      node_name = context.nodes[0];
+      node_edit_menu(pointer.DOM.x, pointer.DOM.y);
     }
   }
 }
 
 // set display to show new node menu
-function new_node_menu(x, y) {
+function new_node_menu(x, y, c_x, c_y) {
   if (document.getElementById("edit_mode").checked) {
+    if (verbose) console.log(c_x, c_y);
     clicked_x = x;
     clicked_y = y;
 
@@ -131,13 +139,13 @@ function node_edit_menu(x, y) {
     let new_content;
 
     new_content = node_menu_html_top + node_name;
-    new_content += node_menu_html_mid
+    new_content += node_menu_html_mid;
     for (const i in states) {
-      new_content += "<option>" + states[i].id + "</option>"
+      new_content += "<option>" + states[i].id + "</option>";
     }
     new_content += node_menu_html_bottom;
     menu.innerHTML = new_content;
-    console.log(menu.innerHTML);
+    if (verbose) console.log(menu.innerHTML);
     if (verbose) menu.innerHTML += "x: " + x + " y: " + y;
     menu.style["margin-left"] = x;
     menu.style["margin-top"]  = y;
@@ -157,7 +165,8 @@ function node_from_menu() {
     network.moveTo(node_id);
   }
   else {
-    new_node(new_label, document.getElementById("final").checked);
+    close_menu();
+    new_node(new_label, document.getElementById("final").checked, true);
   }
 }
 
