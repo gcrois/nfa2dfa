@@ -26,7 +26,7 @@ function State(label, transitions, accepted) {
     this.color = "red";
   }
   else {
-    //this.color = "default_color";
+    this.color = default_color;
   }
 }
 
@@ -66,17 +66,80 @@ function add_edge(n = network, S = states, E = edges, N = nodes) {
   let symbol = document.getElementById("symbol").value;
   let from = node_name.replace(/\s+/g, '');
   let from_item = N.get(from);
+  //let appended = false;
 
   if (S[to] == undefined) {
     alert("State " + to + " DNE");
   }
   else {
     to_item = N.get(to);
-    if (S[from].transitions[symbol] == undefined) S[from].transitions[symbol] = []
-    S[from].transitions[symbol].push(new Transition(n_edges++, symbol, from, to))
+    // check for existing transition to destination
+    /*
+    for (const i in S[from].transitions) {
+      for (const j in S[from].transitions[i]) {
+        // if it does, we need to update the label
+        if (j.to == to) {
+          j.label += ", " + symbol;
+          E.update([j]);
+          appended = true;
+          break;
+        }
+      }
+    }*/
+    // if the list to hold these symbols doesn't exist yet, make it
+    if (S[from].transitions[symbol] == undefined) {
+      S[from].transitions[symbol] = [];
+    }
+    // add new transition to state, update if not a shared edge
+    S[from].transitions[symbol].push(new Transition(n_edges++, symbol, from, to));
     E.update(S[from].transitions[symbol]);
-    console.log(S[from].transitions[symbol]);
+  }
+}
+
+function nickname(id = node_name, new_label = "", n = network, S = states, E = edges, N = nodes) {
+  if (new_label == "") {
+    new_label = document.getElementById("new_label").value;
   }
 
-  return 0;
+  S[id].label = new_label + " (" + S[id].label +")";
+  N.update([S[id]]);
+}
+
+function toggle_final(id = node_name, n = network, S = states, E = edges, N = nodes) {
+  if (S[id].accepted == false) {
+    S[id].accepted = true;
+    S[id].color = "red";
+  }
+  else {
+    S[id].accepted = false;
+    S[id].color = default_color;
+  }
+  N.update([S[id]]);
+}
+
+function delete_node(id = node_name, n = network, S = states, E = edges, N = nodes) {
+  // ensure that we aren't deleting initial
+  if (id == "Init") {
+    alert("You cannot delete the initial node!");
+    return -1;
+  }
+
+  // find and delete edges that contain target node
+  for (const i in S) {
+    for (const j in S[i].transitions) {
+      for (const k in S[i].transitions[j]) {
+        if (S[i].transitions[j][k].to == id || i == id) {
+          E.remove(S[i].transitions[j][k].id);
+          delete S[i].transitions[j][k];
+        }
+        else {
+          if (verbose) console.log(S[i].transitions[j][k].id + " != " + id + " and " + i + " != " + id);
+       }
+      }
+    }
+  }
+  // remove from graph and dictionary
+  N.remove(id);
+  delete S[id];
+  close_menu();
 }
