@@ -9,18 +9,25 @@
     <!-- External resources -->
     <!-- Our main css stylesheet -->
     <link rel="stylesheet" type="text/css" href="css/main.css">
+    <!-- JSON editor css -->
+    <link rel="stylesheet" type="text/css" href="css/jsoneditor.min.css">
+
     <!-- Network Graph visualizer -->
     <script type="text/javascript" src="js/libraries/vis-network.min.js"></script>
     <!-- json editor -->
-    <script type="text/javascript" src="js\libraries\jsoneditor.min.js"></script>
+    <script type="text/javascript" src="js/libraries/jsoneditor.min.js"></script>
     <!-- State object handler -->
     <script type="text/javascript" src="js/graphs.js"></script>
 
     <!-- main.js -->
     <script type="text/javascript" src="js/main.js"></script>
 
+    <!-- favicons -->
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+
     <title>
-      Gregory Site Time (Woohoo)
+      nfa2dfa
     </title>
   </head>
 
@@ -29,7 +36,7 @@
   <body onload="init()">
     <span id="menu_pop"><div id="m_head_container"></div></span>
     <!-- this will contain our network graphs -->
-    <table width=100%>
+    <table>
       <tr>
         <td>
           <div id="input_graph"></div>
@@ -43,23 +50,21 @@
 
     To add/remove edges and nodes, click on edit mode and then on then window for a context menu. Click on empty space for a new node or on an object to edit that object.<br>
 
-    <button id="in_update">Update</button>
+    <button id="in_update">Read from Json</button>
     <input type="checkbox" id="edit_mode">Edit mode</input>
 
     <!-- divides gui fields into two -->
-    <table id="field_divide" width=100%>
+    <table id="field_divide" width=100% class="json">
       <tr id="field_row">
 
         <!-- input field -->
         <td>
-          <textarea name="searchTxt" type="text" id="input" class="field">
-          </textarea>
+          <div id="input" style="height: 100%;"></div>
         </td>
 
         <!-- output field -->
         <td>
-          <textarea name="searchTxt" type="text" id="output" class="field">
-          </textarea>
+          <div id="output" style="height: 100%;"></div>
         </td>
       </tr>
     </table>

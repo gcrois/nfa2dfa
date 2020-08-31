@@ -1,3 +1,9 @@
+// Author: Gregory Croisdale
+// Date created: 8/31/2020
+// Description: This is a graph library wrapped on top of vis-network. It
+// was created with Finite Automata in mind, but should work for more general
+// purposes.
+
 // A directed edge between two nodes
 class Edge {
   constructor(id, symbol, from, to, dataset, color = "green", arrow_type = {to: {enabled: true}}){
@@ -248,14 +254,15 @@ class Graph {
   // imports graph state from string
   import() {
     // get current data and delete current object
+    // if json is invalid, reset
     try {
-      content = JSON.parse(this.json.value);
+      content = this.json.get();
     }
     catch (SyntaxError){
       alert("Invalid JSON! " + SyntaxError + ".");
+      this.export();
       return -1;
     }
-
     this.delete();
 
     // add nodes
@@ -301,7 +308,7 @@ class Graph {
       output["edges"][this.edges[i].label].push(tmp);
     }
 
-    this.json.value = JSON.stringify(output, undefined, 4);
+    this.json.set(output);
   }
 
   // delete everything

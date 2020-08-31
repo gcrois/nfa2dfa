@@ -1,8 +1,9 @@
 // TESTING CODE
 function init() {
   let container = document.getElementById("input_graph");
-  let output = document.getElementById("output");
-  let input = document.getElementById("input");
+  let output = new JSONEditor(document.getElementById("output"), {"mode": 'view'});
+  let input = new JSONEditor(document.getElementById("input"), {"mode": 'text'});
+
 
   graph = new Graph(container, input);
 
