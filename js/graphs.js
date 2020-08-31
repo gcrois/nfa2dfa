@@ -255,6 +255,7 @@ class Graph {
   import() {
     // get current data and delete current object
     // if json is invalid, reset
+    let content;
     try {
       content = this.json.get();
     }
@@ -284,7 +285,7 @@ class Graph {
 
   // exports graph state as string
   export() {
-    output = {
+    let output = {
       "nodes": [],
       "edges": {},
     };
