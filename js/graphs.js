@@ -133,7 +133,7 @@ class Node {
 
 // Container for nodes and edges
 class Graph {
-  constructor(container, options={}, def_color="#bafff6", tar_color="red", sec_color="orange", tri_color="yellow") {
+  constructor(container, json, options={}, def_color="#bafff6", tar_color="red", sec_color="orange", tri_color="yellow") {
     // sets for computation
     this.edges     = {};
     this.nodes     = {};
@@ -146,6 +146,7 @@ class Graph {
 
     // graphical representation
     this.network   = new vis.Network(container, {"edges": this.v_edges, "nodes": this.v_nodes}, options);
+    this.json      = json;
 
     // visual settings
     this.def_color = def_color;
@@ -162,6 +163,7 @@ class Graph {
     // check id for uniqueness and validity
     if (id in this.nodes) {
       console.log("Error - " + id + " already exists!");
+      console.log(this.nodes);
       this.network.moveTo(this.v_nodes.get(id));
       return -1;
     } else if (id == "" || id == null) {
@@ -171,6 +173,9 @@ class Graph {
 
     // create node
     this.nodes[id] = new Node(id, label, this.v_nodes, color, initial, final, x, y);
+
+    // update json
+    this.export();
   }
 
   // creates new edge
@@ -193,6 +198,9 @@ class Graph {
     // add to dict of edges
     this.edges[this.n_edges] = new Edge(this.n_edges, symbol, from_obj, to_obj, this.v_edges, color = this.def_color);
     this.n_edges++;
+
+    // update json
+    this.export();
   }
 
   // deletes node
@@ -213,6 +221,9 @@ class Graph {
 
     // delete edges
     for (const i in deleted_edges) delete this.edges[deleted_edges[i]];
+
+    // update json
+    this.export();
   }
 
   // deletes edge
@@ -229,11 +240,38 @@ class Graph {
     // delete it
     edge.delete();
     delete this.edges[edge_id];
+
+    // update json
+    this.export();
   }
 
   // imports graph state from string
-  import(content) {
-    return "TODO";
+  import() {
+    content = JSON.parse(this.json.value);
+
+    console.log(content);
+
+    // add nodes
+    for (const i in content.nodes) {
+      this.new_node(content.nodes[i]);
+    }
+
+    /*
+    // create initial values for the entire alphabet
+    this.alphabet.forEach(function(symbol) {
+      output["edges"][symbol] = [];
+    });
+
+    // add edge to output
+    for (const i in this.edges) {
+      let tmp = {
+        "from": this.edges[i].from_obj.id,
+        "to": this.edges[i].to_obj.id
+      }
+      output["edges"][this.edges[i].label].push(tmp);
+    }
+
+    return "TODO";*/
   }
 
   // exports graph state as string
@@ -262,18 +300,28 @@ class Graph {
       output["edges"][this.edges[i].label].push(tmp);
     }
 
-    return output;
+    this.json.value = JSON.stringify(output, undefined, 4);
+  }
+
+  // delete everything
+  delete() {
+    // kill the nodes!
+    for (const i in this.nodes) {
+      this.del_node(this.nodes[i].label);
+    }
+    // erase the alphabet!
+    this.alphabet = new Set();
   }
 }
 
 
 // TESTING CODE
 function init() {
-  let container = document.getElementById("graph");
+  let container = document.getElementById("input_graph");
   let output = document.getElementById("output");
   let input = document.getElementById("input");
 
-  graph = new Graph(container);
+  graph = new Graph(container, input);
 
   graph.new_node("hewwo");
   graph.new_node("pee");
@@ -281,8 +329,13 @@ function init() {
   graph.new_edge("g", "hewwo", "pee");
   graph.new_edge("g", "pee", "pee");
   graph.new_edge("g", "pee", "hewwo");
-  graph.new_node("pee");
   graph.new_edge("h", "hewwo", "pee");
-  console.log(graph.edges);
-  output.value = JSON.stringify(graph.export());
+
+  graph.export();
+
+  function test() {
+    graph.import()
+  }
+
+  document.getElementById("in_update").addEventListener("click", test);
 }
