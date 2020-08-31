@@ -247,31 +247,32 @@ class Graph {
 
   // imports graph state from string
   import() {
-    content = JSON.parse(this.json.value);
+    // get current data and delete current object
+    try {
+      content = JSON.parse(this.json.value);
+    }
+    catch (SyntaxError){
+      alert("Invalid JSON! " + SyntaxError + ".");
+      return -1;
+    }
 
-    console.log(content);
+    this.delete();
 
     // add nodes
     for (const i in content.nodes) {
       this.new_node(content.nodes[i]);
     }
 
-    /*
-    // create initial values for the entire alphabet
-    this.alphabet.forEach(function(symbol) {
-      output["edges"][symbol] = [];
-    });
-
-    // add edge to output
-    for (const i in this.edges) {
-      let tmp = {
-        "from": this.edges[i].from_obj.id,
-        "to": this.edges[i].to_obj.id
+    // add symbols to language
+    for (const i in content.edges) {
+      this.alphabet.add(i);
+      // loop through each symbol
+      for (const j in content.edges[i]) {
+        this.new_edge(i, content.edges[i][j]["from"], content.edges[i][j]["to"]);
       }
-      output["edges"][this.edges[i].label].push(tmp);
     }
 
-    return "TODO";*/
+    // we're done!
   }
 
   // exports graph state as string
@@ -311,31 +312,7 @@ class Graph {
     }
     // erase the alphabet!
     this.alphabet = new Set();
+    // start edges from scratch!
+    this.n_edges = 0;
   }
-}
-
-
-// TESTING CODE
-function init() {
-  let container = document.getElementById("input_graph");
-  let output = document.getElementById("output");
-  let input = document.getElementById("input");
-
-  graph = new Graph(container, input);
-
-  graph.new_node("hewwo");
-  graph.new_node("pee");
-  graph.new_edge("g", "hewwo", "pee");
-  graph.new_edge("g", "hewwo", "pee");
-  graph.new_edge("g", "pee", "pee");
-  graph.new_edge("g", "pee", "hewwo");
-  graph.new_edge("h", "hewwo", "pee");
-
-  graph.export();
-
-  function test() {
-    graph.import()
-  }
-
-  document.getElementById("in_update").addEventListener("click", test);
 }

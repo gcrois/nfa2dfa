@@ -1,3 +1,29 @@
+// TESTING CODE
+function init() {
+  let container = document.getElementById("input_graph");
+  let output = document.getElementById("output");
+  let input = document.getElementById("input");
+
+  graph = new Graph(container, input);
+
+  graph.new_node("hewwo");
+  graph.new_node("pee");
+  graph.new_edge("g", "hewwo", "pee");
+  graph.new_edge("g", "hewwo", "pee");
+  graph.new_edge("g", "pee", "pee");
+  graph.new_edge("g", "pee", "hewwo");
+  graph.new_edge("h", "hewwo", "pee");
+
+  graph.export();
+
+  function test() {
+    graph.import()
+  }
+
+  document.getElementById("in_update").addEventListener("click", test);
+}
+
+/*
 // global variables
 let nodes     = -1; // list of all our nodes in dataset form
 let edges     = -1; // list of all our edges in dataset form
@@ -176,3 +202,4 @@ function node_from_menu() {
 function close_menu(){
   menu.style["display"] = "none";
 }
+*/
