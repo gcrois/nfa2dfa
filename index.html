@@ -9,6 +9,9 @@
     <!-- External resources -->
     <!-- Our main css stylesheet -->
     <link rel="stylesheet" type="text/css" href="css/main.css">
+    <!-- JSON editor css -->
+    <link rel="stylesheet" type="text/css" href="css/jsoneditor.min.css">
+
     <!-- Network Graph visualizer -->
     <script type="text/javascript" src="js/libraries/vis-network.min.js"></script>
     <script type="text/javascript" src="js/libraries/jsoneditor.min.js"></script>
@@ -20,8 +23,12 @@
     <!-- main.js -->
     <script type="text/javascript" src="js/main.js"></script>
 
+    <!-- favicons -->
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+
     <title>
-      Gregory Site Time (Woohoo)
+      nfa2dfa
     </title>
   </head>
 
@@ -29,27 +36,35 @@
   <!-- functions for initialization -->
   <body onload="init()">
     <span id="menu_pop"><div id="m_head_container"></div></span>
-    <!-- this will contain our network graph -->
-    <div id="graph">
-    </div>
+    <!-- this will contain our network graphs -->
+    <table>
+      <tr>
+        <td>
+          <div id="input_graph"></div>
+        </td>
+        <td>
+          <div id="output_graph"></div>
+        </td>
+      </tr>
+    </table>
+
 
     To add/remove edges and nodes, click on edit mode and then on then window for a context menu. Click on empty space for a new node or on an object to edit that object.<br>
 
-    <button onclick="new_node()">Update</button>
+    <button id="in_update">Read from Json</button>
     <input type="checkbox" id="edit_mode">Edit mode</input>
 
     <!-- divides gui fields into two -->
+    <table id="field_divide" width=100% class="json">
       <tr id="field_row">
         <!-- input field -->
         <td>
-          <textarea name="searchTxt" type="text" id="input" class="field">
-          </textarea>
+          <div id="input" style="height: 100%;"></div>
         </td>
 
         <!-- output field -->
         <td>
-          <textarea name="searchTxt" type="text" id="output" class="field" readonly>
-          </textarea>
+          <div id="output" style="height: 100%;"></div>
         </td>
       </tr>
     </table>

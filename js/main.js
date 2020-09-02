@@ -8,12 +8,21 @@ function init() {
   graph = new Graph(container, input);
 
   graph.new_node("hewwo");
+<<<<<<< HEAD
   graph.new_node("hi");
   graph.new_edge("g", "hewwo", "hi");
   graph.new_edge("g", "hewwo", "hi");
   graph.new_edge("g", "hi", "hi");
   graph.new_edge("g", "hi", "hi");
   graph.new_edge("h", "hewwo", "hi");
+=======
+  graph.new_node("pee");
+  graph.new_edge("g", "hewwo", "pee");
+  graph.new_edge("g", "hewwo", "pee");
+  graph.new_edge("g", "pee", "pee");
+  graph.new_edge("g", "pee", "hewwo");
+  graph.new_edge("h", "hewwo", "pee");
+>>>>>>> 28ba64f5eda816d2c70aefcbb9ac39efbbde9cd9
 
   graph.export();
 
@@ -22,10 +31,13 @@ function init() {
   }
 
   document.getElementById("in_update").addEventListener("click", test);
+<<<<<<< HEAD
 
   tab = new Table(document.getElementById("tab-in"));
 
   tab.update();
+=======
+>>>>>>> 28ba64f5eda816d2c70aefcbb9ac39efbbde9cd9
 }
 
 /*
