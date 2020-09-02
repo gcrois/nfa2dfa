@@ -1,3 +1,34 @@
+// TESTING CODE
+function init() {
+  let container = document.getElementById("input_graph");
+  let output = new JSONEditor(document.getElementById("output"), {"mode": 'view'});
+  let input = new JSONEditor(document.getElementById("input"), {"mode": 'text'});
+
+
+  graph = new Graph(container, input);
+
+  graph.new_node("hewwo");
+  graph.new_node("hi");
+  graph.new_edge("g", "hewwo", "hi");
+  graph.new_edge("g", "hewwo", "hi");
+  graph.new_edge("g", "hi", "hi");
+  graph.new_edge("g", "hi", "hi");
+  graph.new_edge("h", "hewwo", "hi");
+
+  graph.export();
+
+  function test() {
+    graph.import()
+  }
+
+  document.getElementById("in_update").addEventListener("click", test);
+
+  tab = new Table(document.getElementById("tab-in"));
+
+  tab.update();
+}
+
+/*
 // global variables
 let nodes     = -1; // list of all our nodes in dataset form
 let edges     = -1; // list of all our edges in dataset form
@@ -176,3 +207,4 @@ function node_from_menu() {
 function close_menu(){
   menu.style["display"] = "none";
 }
+*/
