@@ -1,38 +1,70 @@
 class Table {
-  constructor(element) {
+  constructor(element, json) {
     // the html element we export to
-    this.element = element;
+    this.element  = element;
+    this.json     = json;
 
     // converts row / col to index and vice versa
-    this.rows    = {};
-    this.col     = {};
+    this.states   = {};
+    this.alphabet = {};
 
     // contains the data
-    this.data    = [];
+    this.data     = [];
+
+    this.import();
   }
 
   import() {
+    let out = "";
+    let content = {};
     try {
       content = this.json.get();
     }
     catch (SyntaxError){
       alert("Invalid JSON! " + SyntaxError + ".");
-      this.export();
       return -1;
     }
-    this.delete();
 
-    // add nodes
+    // construct vertical header
+    this.data.push([""]);
     for (const i in content.nodes) {
-      this.new_node(content.nodes[i]);
+      this.data.push([content.nodes[i]]);
+      this.states[content.nodes[i]] = {
+        "elements": [],
+        "values": [],
+        "index": i,
+      };
     }
 
-    // add symbols to language
+    // construct horizontal header
     for (const i in content.edges) {
-      this.alphabet.add(i);
-      // loop through each symbol
+      this.data[0].push(i);
       for (const j in content.edges[i]) {
-        this.new_edge(i, content.edges[i][j]["from"], content.edges[i][j]["to"]);
+        if (this.states[content.edges[i][j].from].values[i] == undefined) this.states[content.edges[i][j].from].values[i] = [];
+        this.states[content.edges[i][j].from].values[i].push(content.edges[i][j].to);
+      }
+    }
+
+    console.log(this.data);
+    for (const i in this.data) {
+      out += "<tr>";
+      for (const j in this.data[0]) {
+        out += `<td> <input type="text" id=_` + this.data[i][0] + j + `>`;
+        out += `</input></td>`;
+      }
+      out += "</tr>";
+    }
+
+    this.element.innerHTML = out;
+
+    console.log(this.states);
+
+    // add elements to dict
+    for (let i = 1; i < this.data.length; i++) {
+      for (let j = 1; j < this.data[0].length; j++) {
+        let element = document.getElementById("_" + this.data[i][0] + j);
+        this.states[this.data[i][0]].elements.push(element);
+        element.value = 0;
       }
     }
   }
@@ -42,6 +74,5 @@ class Table {
   }
 
   update() {
-    this.element.innerHTML = "<tr><td>hi</td><tr>";
   }
 }

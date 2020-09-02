@@ -255,10 +255,7 @@ class Graph {
   import() {
     // get current data and delete current object
     // if json is invalid, reset
-<<<<<<< HEAD
-=======
-    let content;
->>>>>>> 28ba64f5eda816d2c70aefcbb9ac39efbbde9cd9
+    let content = {};
     try {
       content = this.json.get();
     }
@@ -288,11 +285,7 @@ class Graph {
 
   // exports graph state as string
   export() {
-<<<<<<< HEAD
-    output = {
-=======
     let output = {
->>>>>>> 28ba64f5eda816d2c70aefcbb9ac39efbbde9cd9
       "nodes": [],
       "edges": {},
     };
